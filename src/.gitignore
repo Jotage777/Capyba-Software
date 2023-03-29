@@ -1,0 +1,6 @@
+#Arquivos especificos
+.env
+
+# Diretório de dependências
+/instace/
+/__pycache/
