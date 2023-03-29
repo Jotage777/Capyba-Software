@@ -1,4 +1,4 @@
-from flask import jsonify, g, Blueprint
+from flask import jsonify, g, Blueprint, send_from_directory
 from decorators import valid_credentials, is_valid_token
 from dbModel import db, User
 
@@ -26,3 +26,11 @@ def logout():
     user.revoke_token()
     db.session.commit()
     return jsonify({"message": "Logout successfully"}), 200
+
+
+#Rota para visualização do termo de uso
+@autentication.route('/termoUso', methods=["GET"])
+def termoUso():
+   directory = 'pdf'
+   pdf_filename = 'termo.pdf'
+   return send_from_directory(directory, pdf_filename, as_attachment=True)
