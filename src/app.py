@@ -15,6 +15,9 @@ app.register_blueprint(user, url_prefix='/user')
 from initDb.initDb import dataBase
 app.register_blueprint(dataBase, url_prefix='/dataBase')
 
+from autentication.autentication import autentication
+app.register_blueprint(autentication, url_prefix='/autentication')
+
 # inicializando a aplicação
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,7 +1,7 @@
 import uuid
 from flask import Blueprint, request, jsonify
 from dbModel import db, User, Imagem
-from sqlalchemy import exists, and_
+from sqlalchemy import exists
 from configEmail import send_email
 
 user = Blueprint('user', __name__)
@@ -25,7 +25,7 @@ def registerUser():
             and imagem
         )
     ):
-        return ("É preciso fornecer E-mail, Nome, Senha e Imagem"),400
+        return jsonify({"message": "É preciso fornecer E-mail, Nome, Senha e Imagem"}), 400
     
     # Verificar se já existe um usuário com este email
     email_exists = db.session.query(
@@ -33,7 +33,7 @@ def registerUser():
     ).scalar()
 
     if email_exists:
-        return ("E-mail já cadastrado."),422
+        return jsonify({"message": "E-mail já cadastrado"}), 400
     
     #Criando objeto user
     user = User(
@@ -81,7 +81,7 @@ def confirmedCodeUser(id):
             request_data.get("code")
         )
     ):
-        return ("É preciso o codigo de verificação"),400
+        return jsonify({"message": "É preciso o codigo de verificação"}), 400
     
     #Verificando se os dados estão na formatação correta
     if type(request_data.get("code"))!=str:
@@ -92,10 +92,10 @@ def confirmedCodeUser(id):
 
     #Tratando possiveis erros
     if not user:
-        return ("Usuario não encontrado!"),400
+        return jsonify({"message": "Usuario não encontrado!"}), 400
     
     if user.confirmed == True:
-        return ("Usuario já tem sua conta confirmada!"),400
+        return jsonify({"message": "Usuario já tem sua conta confirmada!"}), 400
     
     #Confirmando o codigo
     confirmed = user.confirmedCode(request_data.get("code"))
@@ -110,7 +110,7 @@ def confirmedCodeUser(id):
         200,
     )
     else:
-        return ("Não foi possivel verificar a conta, verifique se o codigo estar correto e tente novamente!"),400
+        return jsonify({"message": "Não foi possivel verificar a conta, verifique se o codigo estar correto e tente novamente!"}), 400
 
 #Rota para reenviar o codigo de verificação
 @user.route('/resendCode/<string:id>', methods=['POST'])
@@ -121,12 +121,12 @@ def resendCode(id):
 
     #Tratando possiveis erros
     if not user:
-        return ("Usuario não encontrado!"),400
+        return jsonify({"message": "Usuario não encontrado!"}), 400
     
     if user.confirmed == True:
-        return ("Usuario já tem sua conta confirmada!"),400
+        return jsonify({"message": "Usuario já tem sua conta confirmada!"}), 400
     
     #Enviando novamente o email para o cliente com o codigo de verificação
     send_email(user.email, 'Confirmação de email', user.generateCode(),user.name )
 
-    return('Email com o código de verificação foi novamente enviado!'),200
+    return jsonify({"message": "Email com o código de verificação foi novamente enviado!"}), 400

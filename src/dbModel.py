@@ -7,6 +7,10 @@ import jwt
 from flask_sqlalchemy import SQLAlchemy
 import random
 
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 db = SQLAlchemy()
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///myapp.db'
@@ -56,14 +60,15 @@ class User(db.Model):
         now = brazilian_time()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
             return self.token
+     
         self.token = jwt.encode(
             {"id": self.id, "time": str(now)},
-            current_app.config.get("USER_SECRET_KEY"),
+            os.environ.get('SECRET_KEY'),
             algorithm="HS256",
         )
         self.token_expiration = now + timedelta(seconds=86400)
         db.session.add(self)
-
+        
         return self.token
 
     # Verificando o token
@@ -71,7 +76,7 @@ class User(db.Model):
     def verify_token(token):
         try:
             payload = jwt.decode(
-                token, current_app.config.get("USER_SECRET_KEY"), algorithms=["HS256"]
+                token, os.environ.get('SECRET_KEY'), algorithms=["HS256"]
             )
             user_id = payload["id"]
             user = User.query.get(user_id)
