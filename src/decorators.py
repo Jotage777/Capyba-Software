@@ -24,8 +24,6 @@ def is_valid_token(f):
     
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if request.method == "OPTIONS":
-            return
         try:
             token = request.headers.get("Authorization").split()[1]
         except Exception:

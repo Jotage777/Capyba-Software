@@ -1,8 +1,11 @@
 import uuid
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,g
 from dbModel import db, User, Imagem
 from sqlalchemy import exists
 from configEmail import send_email
+from datetime import datetime
+from decorators import is_valid_token
+from validarCpf import validar_cpf
 
 user = Blueprint('user', __name__)
 
@@ -130,3 +133,83 @@ def resendCode(id):
     send_email(user.email, 'Confirmação de email', user.generateCode(),user.name )
 
     return jsonify({"message": "Email com o código de verificação foi novamente enviado!"}), 400
+
+#Rota para realizar update no perfil do usuario
+@user.route('/updateProfile', methods=['PUT'])
+@is_valid_token
+def updateProfile():
+    request_data = request.get_json()
+    email = False
+    #Consulta com o id fornecido pelo token
+    user: User = g.get("current_user")
+
+    #Verificando quais campos o usuario quer realizar o update
+    #Update do nome
+    if (request_data.get('name')):
+        user.name = request_data.get('name')
+    
+    #Update do email, antes de realizar o email é verificado se já existe algum email igual 
+    # e se não tiver o usuario tem que confirmar a conta novamente
+    if (request_data.get('email')):
+        if db.session.query(
+            exists().where((User.email == request_data.get("email")))
+        ).scalar():
+            return jsonify({"message": "Email já cadastrado!"}), 400
+        
+        email= True
+        user.email = request_data.get('email')
+        user.confirmed = False
+
+    #Update cpf, primeiro é verificado se existe alfum cpf igual se não existir
+    # é feito uma validação para que o usaurio forneça um cpf valido
+    if(request_data.get('cpf')):
+        if db.session.query(
+            exists().where((User.cpf == request_data.get("cpf")))
+        ).scalar():
+            return jsonify({"message": "Cpf já cadastrado!"}), 400
+        
+        if validar_cpf(request_data.get('cpf')):
+            user.cpf = request_data.get('cpf')
+
+        else:
+            return jsonify({"message": "Cpf invalido!"}), 400
+    
+    #Update de telefone, é verificado se existe outro telefone igual
+    if(request_data.get('phone')):
+        if db.session.query(
+            exists().where((User.phone == request_data.get("phone")))
+        ).scalar():
+            return jsonify({"message": "Telefone já cadastrado!"}), 400
+        
+        user.phone = request_data.get('phone')
+    
+    #Update da data de nascimento
+    if(request_data.get('birth_date')):
+        formato = "%d/%m/%Y"
+        user.birth_date = datetime.strptime(request_data.get('birth_date'), formato)
+
+    # Se o email for trocado é enviado novamente o codigo de confirmação e o usuario é deslogado da prataforma
+    if email == True:
+        send_email(request_data.get('email'), 'Confirmação do novo email', user.generateCode(),user.name )
+        user.revoke_token()
+        db.session.commit()
+        return (
+            jsonify(
+                {
+                    "user": user.profileDict(),
+                    "email":'Email enviado para confirmação do novo código, confirme o email e faça o login novamente!'
+                }
+            ),
+            200,
+        )
+    
+    return (
+        jsonify(
+            {
+                "user": user.profileDict()
+            }
+        ),
+        200,
+    )
+
+        

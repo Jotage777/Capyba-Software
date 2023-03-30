@@ -27,6 +27,9 @@ class User(db.Model):
     email = db.Column(db.String(64), unique=True, index=True, nullable=False)  # E-mail
     name = db.Column(db.String(64), nullable=False)  # Nome completo
     password_hash = db.Column(db.String(128), nullable=False)  # Hash da senha
+    cpf = db.Column(db.String(11), unique=True, index=True)  # CPF
+    birth_date = db.Column(db.DateTime, index = True)  # Data de nascimento
+    phone = db.Column(db.String, unique=True)  # Telefone
     confirmed = db.Column(db.Boolean, default=False)  # Confirmação do email
     code = db.Column(db.String(5), index=True)  # Codigo de confirmação
     code_expiration = db.Column(db.DateTime)  # Período em que o codigo se expira
@@ -118,7 +121,11 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "name": self.name,
-            "confirmed":self.confirmed
+            "confirmed":self.confirmed,
+            "cpf":self.cpf,
+            "birth_date": self.birth_date,
+            "phone": self.phone,
+            
             
         }
 
