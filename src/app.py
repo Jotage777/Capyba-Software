@@ -18,6 +18,10 @@ app.register_blueprint(dataBase, url_prefix='/dataBase')
 from autentication.autentication import autentication
 app.register_blueprint(autentication, url_prefix='/autentication')
 
+from loginArea.public.public import public
+app.register_blueprint(public, url_prefix='/public')
+
+
 # inicializando a aplicação
 if __name__ == '__main__':
     app.run(debug=True)

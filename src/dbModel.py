@@ -6,6 +6,7 @@ from flask import current_app, url_for
 import jwt
 from flask_sqlalchemy import SQLAlchemy
 import random
+from sqlalchemy.orm import class_mapper
 
 from dotenv import load_dotenv
 import os
@@ -126,7 +127,7 @@ class User(db.Model):
         }
 
 class Imagem(db.Model):
-    __tablename__ = 'images'
+    __tablename__ = 'imagens'
     id = db.Column(db.String(64), primary_key=True, index=True)
     name = db.Column(db.String(50), index=True)# Nome do arquivo
     data = db.Column(db.LargeBinary, nullable=False)#Conteudo do arquivo
@@ -139,3 +140,28 @@ class Imagem(db.Model):
             "user_id":self.user_id
             
         }
+    
+
+class Filmes(db.Model):
+    __tablename__ = 'filmes'
+    id = db.Column(db.String(64), primary_key=True, index=True)
+    name = db.Column(db.String(50), index=True)# Nome do filme
+    descricao = db.Column(db.String(500), nullable=False)#Descrição do filme
+    avaliacao = db.Column(db.Integer, index=True, nullable=False)# Avaliação do filme
+    anoLancamento = db.Column(db.Integer, index=True, nullable=False)# ano de lançamento
+    
+    def profileDictPublic(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "descrição":self.descricao,
+            "avaliação":self.avaliacao,
+            "ano de lançamento": self.anoLancamento
+            
+        }
+
+#Função para transformar o response dos filtros de pesquisas em Json serializable
+def to_dict(model):
+    """Converte um objeto SQLAlchemy em um dicionário Python."""
+    columns = [c.key for c in class_mapper(model.__class__).columns]
+    return dict((c, getattr(model, c)) for c in columns)
