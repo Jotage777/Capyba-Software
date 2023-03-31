@@ -35,12 +35,7 @@ class User(db.Model):
     code_expiration = db.Column(db.DateTime)  # Período em que o codigo se expira
     token = db.Column(db.String(240), index=True, unique=True)  # Token de login
     token_expiration = db.Column(db.DateTime)  # Período em que o token se expira
-    reset_password_token = db.Column(
-        db.String(240), index=True, unique=True, nullable=True
-    )  # Refresh token
-    reset_password_token_expiration = db.Column(
-        db.DateTime, nullable=True
-    )  # Período em que o refresh token se expira
+    
     #ForeignKey
     imagens = db.relationship('Imagem', backref='user', lazy=True)
 
@@ -58,6 +53,7 @@ class User(db.Model):
     def verify_password(self, password):  # Verifique se a senha digitada está correta
         return check_password_hash(self.password_hash, password)
 
+    
     # Gerando o token do usuario
     def generate_token(self):
         now = brazilian_time()
