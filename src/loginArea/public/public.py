@@ -69,6 +69,20 @@ def getListFilmes():
 
     elif id:
         filme = Filmes.query.get(id)
+        if filme is None:
+            return (
+            jsonify(
+                {   "A.info":{
+                    "Page": page ,
+                    "Page size": 0,
+                    "Itens totais":Filmes.query.count()
+                    },
+                    "Filmes": []
+
+                }
+            ),
+            200,)
+        
         return (
         jsonify(
             {   "A.info":{

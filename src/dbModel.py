@@ -143,6 +143,7 @@ class User(db.Model):
             "cpf":self.cpf,
             "birth_date": self.birth_date,
             "phone": self.phone,
+            "role": self.role_id
             
             
         }

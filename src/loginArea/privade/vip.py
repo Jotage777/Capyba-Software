@@ -67,6 +67,20 @@ def getListLivros():
 
     elif id:
         livro = Livros.query.get(id)
+        if livro is None:
+            return (
+            jsonify(
+                {   "A.info":{
+                    "Page": page ,
+                    "Page size": 0,
+                    "Itens totais":Livros.query.count()
+                    },
+                    "Livro": []
+
+                }
+            ),
+            200,)
+        
         return (
         jsonify(
             {   "A.info":{
@@ -160,6 +174,20 @@ def getListSeries():
 
     elif id:
         serie = Series.query.get(id)
+        if serie is None:
+            return (
+            jsonify(
+                {   "A.info":{
+                    "Page": page ,
+                    "Page size": 0,
+                    "Itens totais":Series.query.count()
+                    },
+                    "Serie": []
+
+                }
+            ),
+            200,)
+        
         return (
         jsonify(
             {   "A.info":{

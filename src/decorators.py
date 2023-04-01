@@ -51,3 +51,19 @@ def hasPermissionVip(f):
         
 
     return decorated_function
+
+def hasPermissionAdmin(f):
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        user: User = g.get("current_user")
+        if(user.role.has_permission(Permission.ADMIN)):
+            return f(*args, **kwargs)
+        else:
+            return jsonify({"message": "Usuário não tem permissão para acessar essa rota."}), 403
+        
+       
+        
+
+    return decorated_function
+

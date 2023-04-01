@@ -24,6 +24,9 @@ app.register_blueprint(public, url_prefix='/public')
 from loginArea.privade.vip import vip
 app.register_blueprint(vip, url_prefix='/vip')
 
+from admin.admin import admin
+app.register_blueprint(admin, url_prefix='/admin')
+
 
 
 # inicializando a aplicação

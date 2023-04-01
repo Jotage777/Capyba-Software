@@ -12,7 +12,6 @@ def login():
     if not user.confirmed:
         return ("Usuário ainda não confirmou e-mail."),400
     token = user.generate_token()
-    print(token)
     db.session.commit()
     return jsonify(
         {"token": token, "user": user.profileDict(), "expires_in": 86400}
