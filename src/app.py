@@ -21,6 +21,10 @@ app.register_blueprint(autentication, url_prefix='/autentication')
 from loginArea.public.public import public
 app.register_blueprint(public, url_prefix='/public')
 
+from loginArea.privade.vip import vip
+app.register_blueprint(vip, url_prefix='/vip')
+
+
 
 # inicializando a aplicação
 if __name__ == '__main__':

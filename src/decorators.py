@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import g, request, current_app, jsonify
-from dbModel import User
+from dbModel import User, Permission
 
 #Decorrator para validar o email e a senha do usuario
 def valid_credentials(f):
@@ -34,5 +34,20 @@ def is_valid_token(f):
             return jsonify({"message": "Token inválido - Usuário."}), 401
        
         return f(*args, **kwargs)
+
+    return decorated_function
+
+def hasPermissionVip(f):
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        user: User = g.get("current_user")
+        if(user.role.has_permission(Permission.VIP)):
+            return f(*args, **kwargs)
+        else:
+            return jsonify({"message": "Usuário não tem permissão para acessar essa rota."}), 403
+        
+       
+        
 
     return decorated_function

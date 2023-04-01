@@ -21,6 +21,13 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 def brazilian_time():
     return datetime.utcnow() - timedelta(hours=3)
 
+
+class Permission:
+    PUBLIC = 1
+    VIP = 2
+    ADMIN = 4
+
+
 #Classe que representa a tabela de usuarios
 class User(db.Model):
     __tablename__ = "users"
@@ -34,11 +41,25 @@ class User(db.Model):
     confirmed = db.Column(db.Boolean, default=False)  # Confirmação do email
     code = db.Column(db.String(5), index=True)  # Codigo de confirmação
     code_expiration = db.Column(db.DateTime)  # Período em que o codigo se expira
-    token = db.Column(db.String(240), index=True, unique=True)  # Token de login
-    token_expiration = db.Column(db.DateTime)  # Período em que o token se expira
+    token = db.Column(db.String(240), index=True, unique=True)# Token de login
+    token_expiration = db.Column(db.DateTime)# Período em que o token se expira
+    vip = db.Column(db.Boolean, default=False)# Acesso a area de login privada
     
     #ForeignKey
     imagens = db.relationship('Imagem', backref='user', lazy=True)
+    role_id = db.Column(db.Integer, ForeignKey("roles.id"))
+
+    # criando o administrador
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role_id is None:
+            if self.email == 'admin@admin.com':
+                self.role_id = (
+                    Role.query.filter_by(name="ADMINISTRATOR").first().id
+                )
+            else:
+                self.role_id = Role.query.filter_by(default=True).first().id
+
 
     @property  # O que acontece quando User.password é chamado
     def password(self):
@@ -159,6 +180,90 @@ class Filmes(db.Model):
             "ano de lançamento": self.anoLancamento
             
         }
+
+class Livros(db.Model):
+    __tablename__ = 'livros'
+    id = db.Column(db.String(64), primary_key=True, index=True)
+    name = db.Column(db.String(50), index=True)# Nome do livro
+    autor = db.Column(db.String(50), nullable=False)#Autor do livro
+    avaliacao = db.Column(db.Integer, index=True, nullable=False)# Avaliação do filme
+    anoLancamento = db.Column(db.Integer, index=True, nullable=False)# ano de lançamento
+    
+    def profileDictPublic(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "Autor":self.autor,
+            "avaliação":self.avaliacao,
+            "ano de lançamento": self.anoLancamento
+            
+        }
+    
+class Series(db.Model):
+    __tablename__ = 'series'
+    id = db.Column(db.String(64), primary_key=True, index=True)
+    name = db.Column(db.String(50), index=True)# Nome do filme
+    descricao = db.Column(db.String(500), nullable=False)#Descrição do filme
+    avaliacao = db.Column(db.Integer, index=True, nullable=False)# Avaliação do filme
+    anoLancamento = db.Column(db.Integer, index=True, nullable=False)# ano de lançamento
+    
+    def profileDictPublic(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "descrição":self.descricao,
+            "avaliação":self.avaliacao,
+            "ano de lançamento": self.anoLancamento
+            
+        }
+
+class Role(db.Model):
+    __tablename__ = "roles"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    default = db.Column(db.Boolean, default=False, index=True)
+    permissions = db.Column(db.Integer)
+    users = db.relationship("User", backref="role", lazy="dynamic")
+
+    # If a permission value is None sets it to 0
+    def __init__(self, **kwargs):
+        super(Role, self).__init__(**kwargs)
+        if self.permissions is None:
+            self.permissions = 0
+
+    def add_permission(self, perm):
+        if not self.has_permission(perm):
+            self.permissions += perm
+
+    def remove_permission(self, perm):
+        if self.has_permission(perm):
+            self.permissions -= perm
+
+    def reset_permissions(self):
+        self.permissions = 0
+
+    def has_permission(self, perm):
+        return self.permissions & perm == perm
+
+    @staticmethod
+    def insert_roles():
+        roles = {
+            "PUBLIC": [Permission.PUBLIC],
+            "VIP": [Permission.PUBLIC, Permission.VIP],
+            "ADMINISTRATOR": [Permission.PUBLIC, Permission.VIP, Permission.ADMIN],
+        }
+        default_role = "PUBLIC"
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            # Insert permissions
+            role.reset_permissions()
+            for perm in roles[r]:
+                role.add_permission(perm)
+            role.default = role.name == default_role
+            db.session.add(role)
+        db.session.commit()
 
 #Função para transformar o response dos filtros de pesquisas em Json serializable
 def to_dict(model):

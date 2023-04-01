@@ -1,13 +1,13 @@
-from flask import jsonify, g, Blueprint, send_from_directory, request
+from flask import jsonify, g, Blueprint, request
 from decorators import is_valid_token
-from dbModel import db, User, Imagem, Filmes, to_dict
+from dbModel import Filmes, to_dict
 
 from sqlalchemy import or_
 public = Blueprint('pubic', __name__)
 
 
 #Rota para pessoas logadas na área publica
-@public.route('/filmesDefault',methods=["GET"])
+@public.route('/filmes',methods=["GET"])
 @is_valid_token
 def getListFilmes():
     page = request.args.get("page", type=int)
@@ -22,7 +22,7 @@ def getListFilmes():
     if not pageSize:
         pageSize = 20
     if not ordering:
-        ordering = Filmes.name
+        ordering = Filmes.avaliacao
     else:
         if ordering == 'name':
             ordering = Filmes.name
@@ -42,13 +42,13 @@ def getListFilmes():
     
 
     if (not search) and (not assessment) and (not id):
-        filmes = Filmes.query.order_by(ordering).paginate(per_page=pageSize, page = page, error_out=True)
+        filmes = Filmes.query.order_by(ordering.desc()).paginate(per_page=pageSize, page = page, error_out=True)
     
     elif( search and id) or (search and assessment) or (assessment and id):
          return jsonify({"message": "Os parametros id, search e assessment só podem ser consultados de forma separada!"}), 400
     
     elif search:
-        filmes = Filmes.query.filter(or_(Filmes.name.like(f'%{search}%'), Filmes.descricao.like(f'%{search}%'))).order_by(ordering).paginate(per_page=pageSize, page = page, error_out=True)
+        filmes = Filmes.query.filter(or_(Filmes.name.like(f'%{search}%'), Filmes.descricao.like(f'%{search}%'))).order_by(ordering.desc()).paginate(per_page=pageSize, page = page, error_out=True)
 
     elif assessment:
         filmesAssessment = Filmes.query.filter_by(avaliacao=assessment).all()
