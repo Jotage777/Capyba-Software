@@ -1,13 +1,18 @@
-from flask import Flask
+from flask import Flask, jsonify
 from models.dbModel import db, SQLALCHEMY_DATABASE_URI
+from flasgger import Swagger
 
 
 #Configurando o aplicativo flask 
 app = Flask(__name__)
 
+#Configurando o swagger
+swagger = Swagger(app)
+
 #Configurando o banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 db.init_app(app)
+
 #Registrando os blueprints
 from blueprints.user.user import user
 app.register_blueprint(user, url_prefix='/user')
@@ -26,7 +31,6 @@ app.register_blueprint(vip, url_prefix='/vip')
 
 from blueprints.admin.admin import admin
 app.register_blueprint(admin, url_prefix='/admin')
-
 
 # inicializando a aplicação
 if __name__ == '__main__':

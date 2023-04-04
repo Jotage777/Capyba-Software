@@ -11,6 +11,82 @@ admin = Blueprint('admin', __name__)
 @is_valid_token
 @hasPermissionAdmin
 def addFilme():
+    """Rota para adicionar um novo filme através do ADMIN
+
+    ---
+    tags:
+        - ADMIN
+    parameters:
+      - in: body
+        description: Request body
+        schema:
+          type: object
+          properties:
+            nome:
+              type: string
+              require: true
+              example: "João Gabriel"
+            descricao:
+              type: string
+              require: true
+              example: "DEscrição do filme"
+            avaliacao:
+              type: int
+              require: true
+              example: 5
+            anoLancamento:
+              type: int
+              require: true
+              example: 2023
+      - name: Authorization
+        in: header
+        description: Token de acesso JWT
+        required: true
+        type: string
+    
+    responses:
+      201:
+        description: Filme adicionado
+        examples:
+          application/json:
+            {
+               Filme:{
+                  "id":"string",
+                  "name":"string",
+                  "avaliação": "int",
+                  "ano de lançamento": "int"
+               }
+            }
+      400:
+        description: Faltando alguma informação
+        examples:
+          application/json:
+            {
+               "Mensagem":"É preciso o nome, decrição, avaliação e ano de lançamento"
+            }
+      400(2):
+        description: Token expirou
+        examples:
+          application/json:
+            {
+               "message":" Token inválido."
+            }
+      400(3):
+        description: Token errado
+        examples:
+          application/json:
+            {
+               "message":"Token inválido - Usuário."
+            }
+      403:
+        description: O Usuario não é admin
+        examples:
+          application/json:
+            {
+               "message":"Usuário não tem permissão para acessar essa rota."
+            }
+    
+    """
     request_data = request.get_json()
 
      # Checar se todos os dados foram fornecidos
@@ -48,6 +124,82 @@ def addFilme():
 @is_valid_token
 @hasPermissionAdmin
 def addSerie():
+    """Rota para adicionar um novo filme através do ADMIN
+
+    ---
+    tags:
+        - ADMIN
+    parameters:
+      - in: body
+        description: Request body
+        schema:
+          type: object
+          properties:
+            nome:
+              type: string
+              require: true
+              example: "Livro"
+            autor:
+              type: string
+              require: true
+              example: "Gabriel Oliveira"
+            avaliacao:
+              type: int
+              require: true
+              example: 5
+            anoLancamento:
+              type: int
+              require: true
+              example: 2023
+      - name: Authorization
+        in: header
+        description: Token de acesso JWT
+        required: true
+        type: string
+    
+    responses:
+      201:
+        description: Serie adicionado
+        examples:
+          application/json:
+            {
+               Serie:{
+                  "id":"string",
+                  "autor":"string",
+                  "avaliação": "int",
+                  "ano de lançamento": "int"
+               }
+            }
+      400:
+        description: Faltando alguma informação
+        examples:
+          application/json:
+            {
+               "Mensagem":"É preciso o nome, autor, avaliação e ano de lançamento"
+            }
+      400(2):
+        description: Token expirou
+        examples:
+          application/json:
+            {
+               "message":" Token inválido."
+            }
+      400(3):
+        description: Token errado
+        examples:
+          application/json:
+            {
+               "message":"Token inválido - Usuário."
+            }
+      403:
+        description: O Usuario não é admin
+        examples:
+          application/json:
+            {
+               "message":"Usuário não tem permissão para acessar essa rota."
+            }
+    
+    """
     request_data = request.get_json()
 
      # Checar se todos os dados foram fornecidos
@@ -86,6 +238,81 @@ def addSerie():
 @is_valid_token
 @hasPermissionAdmin
 def addLivro():
+    """Rota para adicionar um novo livro através do ADMIN
+
+    ---
+    tags:
+        - ADMIN
+    parameters:
+      - in: body
+        description: Request body
+        schema:
+          type: object
+          properties:
+            nome:
+              type: string
+              require: true
+              example: "João Gabriel"
+            descricao:
+              type: string
+              require: true
+              example: "Descrição do livro"
+            avaliacao:
+              type: int
+              require: true
+              example: 5
+            anoLancamento:
+              type: int
+              require: true
+              example: 2023
+      - name: Authorization
+        in: header
+        description: Token de acesso JWT
+        required: true
+        type: string
+    responses:
+      201:
+        description: Filme adicionado
+        examples:
+          application/json:
+            {
+               "Livro":{
+                  "id":"string",
+                  "name":"string",
+                  "avaliação": "int",
+                  "ano de lançamento": "int"
+               }
+            }
+      400:
+        description: Faltando alguma informação
+        examples:
+          application/json:
+            {
+               "Mensagem":"É preciso o nome, decrição, avaliação e ano de lançamento"
+            }
+      400(2):
+        description: Token expirou
+        examples:
+          application/json:
+            {
+               "message":" Token inválido."
+            }
+      400(3):
+        description: Token errado
+        examples:
+          application/json:
+            {
+               "message":"Token inválido - Usuário."
+            }
+      403:
+        description: O Usuario não é admin
+        examples:
+          application/json:
+            {
+               "message":"Usuário não tem permissão para acessar essa rota."
+            }
+    
+    """
     request_data = request.get_json()
 
      # Checar se todos os dados foram fornecidos
@@ -123,12 +350,77 @@ def addLivro():
 @is_valid_token
 @hasPermissionAdmin
 def editRole(id):
+    """Rota para conceder permissão para o usuario acessar a area vip
+
+    ---
+    tags: 
+      - ADMIN
+    parameters:
+      - in: body
+        description: Request body
+        schema:
+          type: object
+          properties:
+            role:
+              type: string
+              require: true
+              example: "VIP OU PUBLIC"
+      - name: Authorization
+        in: header
+        description: Token de acesso JWT
+        required: true
+        type: string
+    
+    responses:
+      200:
+        description: Permissão alterada
+        examples:
+          application/json:
+            {
+               "message": "Permissão de usuário alterada com sucesso."
+            }
+      400:
+        description: Role vazio ou não enviado
+        examples:
+          application/json:
+            {
+               "message": "Role não disponivel."
+            }
+      400(2):
+        description: Token expirou
+        examples:
+          application/json:
+            {
+               "message":" Token inválido."
+            }
+      400(3):
+        description: Token errado
+        examples:
+          application/json:
+            {
+               "message":"Token inválido - Usuário."
+            }
+      400(4):
+        description: Usuario já tem acesso vip
+        examples:
+          application/json:
+            {
+               "message": "Usuário já é um membro vip."
+            }
+      403:
+        description: O Usuario não é admin
+        examples:
+          application/json:
+            {
+               "message":"Usuário não tem permissão para acessar essa rota."
+            }
+    """
     request_data = request.get_json()
     #Consulta com o id fornecido
     user = User.query.get(id)
 
     if(user.role.has_permission(Permission.VIP)):
-        return jsonify({"message": "Usuário já é um menbro vip."}), 403
+        return jsonify({"message": "Usuário já é um membro vip."}), 400
     
     if(request_data.get('role')=='VIP'):
         user.role_id = Role.query.filter_by(name="VIP").first().id
