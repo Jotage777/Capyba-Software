@@ -1,5 +1,5 @@
 import pytest
-from dbModel import db, Role
+from models.dbModel import db, Role
 import json
 from app import app
 
@@ -20,7 +20,7 @@ def client():
 def test_register_and_login(client):
     
     #Registrando um usuario
-    file_name = "tests/imagem.png"
+    file_name = "../tests/imagem.png"
     file_data = open(file_name, "rb")
 
     data_user = {
@@ -162,7 +162,7 @@ def test_update_user_and_charge_password(client):
 def test_admin_area(client):
     
     #Registrando um usuario admin
-    file_name = "tests/imagem.png"
+    file_name = "../tests/imagem.png"
     file_data = open(file_name, "rb")
 
     data_user = {
