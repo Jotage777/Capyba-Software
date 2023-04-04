@@ -15,7 +15,7 @@ def validar_cpf(cpf):
     soma = sum([int(cpf[i]) * i for i in range(10)])
     resto = soma % 11
     digito2 = 0 if resto < 2 else 11 - resto
-
+    
     # Verificando se os dígitos verificadores são válidos
     if cpf[-2:] == str(digito1) + str(digito2):
         return True

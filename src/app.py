@@ -1,13 +1,13 @@
 from flask import Flask
 from dbModel import db,SQLALCHEMY_DATABASE_URI
 
+
 #Configurando o aplicativo flask 
 app = Flask(__name__)
 
 #Configurando o banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 db.init_app(app)
-
 #Registrando os blueprints
 from user.user import user
 app.register_blueprint(user, url_prefix='/user')
@@ -26,7 +26,6 @@ app.register_blueprint(vip, url_prefix='/vip')
 
 from admin.admin import admin
 app.register_blueprint(admin, url_prefix='/admin')
-
 
 
 # inicializando a aplicação
