@@ -10,6 +10,113 @@ vip = Blueprint('vip', __name__)
 @is_valid_token
 @hasPermissionVip
 def getListLivros():
+    """Rota para realizar consultas na area privada, na parte de livros
+
+    ---
+    tags:
+        - AREA LOGADA - VIP
+    parameters:
+      - name: page
+        in: query
+        description: Número da página que deve ser retornada
+        type: integer
+        required: false
+
+      - name: pageSize
+        in: query
+        description: Número de itens retornados da pagina
+        type: integer
+        required: false
+
+      - name: search
+        in: query
+        description: Para pesquisar alguma palavra no nome do livro
+        type: string
+        required: false
+
+      - name: ordering
+        in: query
+        description: Qual o filtro que a ordenação que deve seguir
+        type: string
+        required: false
+
+      - name: assessment
+        in: query
+        description: Filtrar pelo numero de avaliação
+        type: integer
+        required: false
+    
+      - name: id
+        in: query
+        description: Consultar algum livro que tenha esse id
+        type: string
+        required: false
+
+      - name: Authorization
+        in: header
+        description: Token de acesso JWT
+        required: true
+        type: string
+    
+    responses:
+      200:
+        description: Livro adicionado
+        examples:
+          application/json:
+            {
+               "A.info":{
+                    "Page": page ,
+                    "Page size": pageSize,
+                    "Itens totais": todos os itens
+                    },
+                    "Livro": [
+                        {
+                        "id": id,
+                        "name": name,
+                        "Autor": autor,
+                        "avaliação": avaliacao,
+                        "ano de lançamento": anoLancamento
+                        }
+                    ]
+
+            }
+      400:
+        description: Ordenação não permitida
+        examples:
+          application/json:
+            {
+               message": "Ordenação não permitida!Tente novamente com name, autor, avaliacao ou anoLancamento"
+            }
+      400(2):
+        description: Query não permitida
+        examples:
+          application/json:
+            {
+               "message": "Os parametros id, search e assessment só podem ser consultados de forma separada!"
+            }
+      400(3):
+        description: Token expirou
+        examples:
+          application/json:
+            {
+               "message":" Token inválido."
+            }
+      400(4):
+        description: Token errado
+        examples:
+          application/json:
+            {
+               "message":"Token inválido - Usuário."
+            }
+      403:
+        description: O Usuario não é vip
+        examples:
+          application/json:
+            {
+               "message":"Usuário não tem permissão para acessar essa rota."
+            }
+    
+    """
     page = request.args.get("page", type=int)
     pageSize = request.args.get("pageSize", type=int)
     search = request.args.get("search", type=str)
@@ -117,6 +224,113 @@ def getListLivros():
 @is_valid_token
 @hasPermissionVip
 def getListSeries():
+    """Rota para realizar consultas na area privada, na parte de series
+
+    ---
+    tags:
+        - AREA LOGADA - VIP
+    parameters:
+      - name: page
+        in: query
+        description: Número da página que deve ser retornada
+        type: integer
+        required: false
+
+      - name: pageSize
+        in: query
+        description: Número de itens retornados da pagina
+        type: integer
+        required: false
+
+      - name: search
+        in: query
+        description: Para pesquisar alguma palavra no nome do livro
+        type: string
+        required: false
+
+      - name: ordering
+        in: query
+        description: Qual o filtro que a ordenação que deve seguir
+        type: string
+        required: false
+
+      - name: assessment
+        in: query
+        description: Filtrar pelo numero de avaliação
+        type: integer
+        required: false
+    
+      - name: id
+        in: query
+        description: Consultar algum livro que tenha esse id
+        type: string
+        required: false
+
+      - name: Authorization
+        in: header
+        description: Token de acesso JWT
+        required: true
+        type: string
+    
+    responses:
+      200:
+        description: Serie adicionado
+        examples:
+          application/json:
+            {
+               "A.info":{
+                    "Page": page ,
+                    "Page size": pageSize,
+                    "Itens totais": todos os itens
+                    },
+                    "Serie": [
+                        {
+                        "id": id,
+                        "name": name,
+                        "descrição": autor,
+                        "avaliação": avaliacao,
+                        "ano de lançamento": anoLancamento
+                        }
+                    ]
+
+            }
+      400:
+        description: Ordenação não permitida
+        examples:
+          application/json:
+            {
+               message": "Ordenação não permitida!Tente novamente com name, descricao, avaliacao ou anoLancamento"
+            }
+      400(2):
+        description: Query não permitida
+        examples:
+          application/json:
+            {
+               "message": "Os parametros id, search e assessment só podem ser consultados de forma separada!"
+            }
+      400(3):
+        description: Token expirou
+        examples:
+          application/json:
+            {
+               "message":" Token inválido."
+            }
+      400(4):
+        description: Token errado
+        examples:
+          application/json:
+            {
+               "message":"Token inválido - Usuário."
+            }
+      403:
+        description: O Usuario não é vip
+        examples:
+          application/json:
+            {
+               "message":"Usuário não tem permissão para acessar essa rota."
+            }
+    
+    """
     page = request.args.get("page", type=int)
     pageSize = request.args.get("pageSize", type=int)
     search = request.args.get("search", type=str)

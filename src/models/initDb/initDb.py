@@ -6,6 +6,24 @@ dataBase = Blueprint('dataBase', __name__)
 
 @dataBase.route('/inicializarBanco',methods=['POST'])
 def inicializar_banco():
+    """Rota para inicializar o banco de dados
+
+    ---
+    tags:
+        - DATA BASE
+    
+                
+    responses:
+      200:
+        description: Login realizado com sucesso
+        examples:
+          application/json:
+            {
+               "message": "Banco de dados inicializado e pre populado com sucesso!"
+            }
+         
+    
+    """
     db.create_all()
 
     # Criando os Roles
