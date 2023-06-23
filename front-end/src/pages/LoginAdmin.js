@@ -2,7 +2,7 @@ import styles from './styles/Login.module.css'
 import { useState } from "react";
 import axios from 'axios'
 
-function Login(){
+function LoginAdmin(){
 
     async function loginApi(email, password){
         const body = {
@@ -31,7 +31,7 @@ function Login(){
                 <div className={styles.warp_login}>
                     <form className="login-form">
                         
-                        <span className={styles.login_form_title}>Bem vindo!</span>
+                        <span className={styles.login_form_title}>Área do Admin</span>
 
                         <br></br>
 
@@ -70,12 +70,7 @@ function Login(){
                         </div>
 
 
-                        <div className={styles.cadastro_link}>
-                            <span className={styles.txt1}>Não possui conta?</span>
-                            <a className={styles.txt2} href="/pagina-de-cadastro">
-                                Cadastrar-se
-                            </a>
-                        </div>
+                      
                     </form>
                 </div>
 
@@ -86,4 +81,4 @@ function Login(){
     )
 }
 
-export default Login
+export default LoginAdmin

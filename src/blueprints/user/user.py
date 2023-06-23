@@ -88,6 +88,7 @@ def registerUser():
     name = request.form['name']
     email = request.form['email']
     password = request.form['password']
+    
     # Checar se todos os dados foram fornecidos
     if not (
         (
@@ -97,6 +98,7 @@ def registerUser():
             and imagem
         )
     ):
+        print('aqui 1')
         return jsonify({"message": "É preciso fornecer E-mail, Nome, Senha e Imagem"}), 400
     
     # Verificar se já existe um usuário com este email
@@ -105,6 +107,7 @@ def registerUser():
     ).scalar()
 
     if email_exists:
+        print('aqui 2')
         return jsonify({"message": "E-mail já cadastrado"}), 400
     
     #Criando objeto user
