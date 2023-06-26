@@ -1,0 +1,20 @@
+.all {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Alinha verticalmente os elementos "categorias" e "user" */
+}
+
+.categorias {
+    display: flex;
+    align-items: center;
+}
+
+.categorias a {
+    color: white;
+    text-decoration: none;
+    margin-right: 100px; /* Adiciona um espaçamento entre os elementos */
+}
+
+

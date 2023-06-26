@@ -42,7 +42,13 @@
     text-align: center;
 }
 
-.logo img{
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
     width: 50px;
 }
 

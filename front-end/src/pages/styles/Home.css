@@ -1,0 +1,115 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.container{
+    width: 100%;
+    margin: 0 auto;
+}
+
+.container-bem-vindo {
+    width: auto;
+    background-color: #333;
+
+    overflow: hidden;
+    padding: 10px 0 0 0;
+
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.bem-vindo {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 24px;
+}
+
+.container-bem-vindo {
+    width: auto;
+    background-color: #333;
+
+    overflow: hidden;
+    padding: 10px 0 0 0;
+
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.container-navBar {
+    width: 100%;
+    background-color: #333;
+    padding-top: 190px; /* Ajusta o espaçamento superior */
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    display: flex;
+    justify-content: flex-start; /* Ajusta o alinhamento horizontal */
+    align-items: center;
+    position: absolute; /* Posiciona a logo de forma absoluta */
+    top: 0; /* Posiciona a logo no topo */
+    left: 10px; /* Ajusta o espaçamento esquerdo */
+    padding: 10px; /* Adiciona um espaçamento interno */
+}
+
+.logo img {
+    width: 50px;
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+.preview {
+    width: auto;
+    background-color:chartreuse;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.title {
+    font-size: 30px;
+    color: black;
+    line-height: 1.2;
+    text-align: center;
+    margin: 0;
+}
+
+.filmes-container {
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
+    height: 220px;
+    margin-top: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+.filme {
+    flex: 0 0 24%; /* Define a largura para 25% para exibir 4 filmes por vez */
+    margin-right: 10px;
+    background-color:#333;
+    padding: px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin: 10px;
+    
+}
+
+.filme-title {
+    color: white;
+}
+  
+.filme-info {
+    color: white;
+}
