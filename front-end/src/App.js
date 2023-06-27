@@ -6,6 +6,9 @@ import ConfirmarConta from './pages/ConfirmarConta';
 import LoginAdmin from './pages/LoginAdmin';
 import { AuthContext } from './contexts/auth';
 import Home from './pages/Home';
+import Filmes from './pages/Filmes';
+import Livros from './pages/Livros';
+import Series from './pages/Series';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -24,10 +27,12 @@ function App() {
       <AuthContext.Provider value={user}>
         <Routes>
           <Route path="/" element={<Login onLogin={handleLogin} />} />
+
           <Route
             path="/cadastro"
             element={<Cadastro onCadastro={handleCadastro} />}
           />
+
           <Route
             path="/confirmar-conta"
             element={
@@ -38,7 +43,9 @@ function App() {
               )
             }
           />
+
           <Route path="/admin/login" element={<LoginAdmin />} />
+
           <Route path="/home" element={
               user && user.id && user.token && user.username && user.role? (
                 <Home userId={user.id} userToken={user.token} username={user.name} userRole={user.role} />
@@ -46,6 +53,25 @@ function App() {
                 <Navigate to="/" replace />
               )
             } />
+
+          <Route path="/filmes" element={
+            user && user.token ? (
+              <Filmes userToken={user.token}/>
+            ):(<Navigate to="/" replace />)
+          } />
+
+          <Route path="/livros" element={
+            user && user.token && user.role ? (
+              <Livros userToken={user.token} userRole={user.role}/>
+            ):(<Navigate to="/" replace />)
+          } />
+
+          <Route path="/series" element={
+            user && user.token && user.role ? (
+              <Series userToken={user.token} userRole={user.role}/>
+            ):(<Navigate to="/" replace />)
+          } />
+
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

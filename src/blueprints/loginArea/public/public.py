@@ -158,8 +158,8 @@ def getListFilmes():
         jsonify(
             {   "A.info":{
                 "Page": page ,
-                "Page size": len(filmesAssessment),
-                "Itens totais":Filmes.query.count()
+                "Page_size": len(filmesAssessment),
+                "Itens_totais":Filmes.query.count()
                 },
                 "Filmes": filmes_dict
 
@@ -175,8 +175,8 @@ def getListFilmes():
             jsonify(
                 {   "A.info":{
                     "Page": page ,
-                    "Page size": 0,
-                    "Itens totais":Filmes.query.count()
+                    "Page_size": 0,
+                    "Itens_totais":Filmes.query.count()
                     },
                     "Filmes": []
 
@@ -188,8 +188,8 @@ def getListFilmes():
         jsonify(
             {   "A.info":{
                 "Page": page ,
-                "Page size": 1,
-                "Itens totais":Filmes.query.count()
+                "Page_size": 1,
+                "Itens_totais":Filmes.query.count()
                 },
                 "Filmes": filme.profileDictPublic()
 
@@ -206,8 +206,8 @@ def getListFilmes():
         jsonify(
             {   "A.info":{
                 "Page": page ,
-                "Page size": len(filmes_dict),
-                "Itens totais":Filmes.query.count()
+                "Page_size": len(filmes_dict),
+                "Itens_totais":Filmes.query.count()
                 },
                 "Filmes": filmes_dict
 

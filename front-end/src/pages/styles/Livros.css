@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.container-navBar {
+    width: 100%;
+    background-color: #333;
+    padding-top: 190px; /* Ajusta o espaçamento superior */
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.preview {
+    width: auto;
+    background-color: chartreuse;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.livro-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    max-height: calc(100vh - 200px); /* Altura máxima ajustada para evitar barra de rolagem */
+    overflow: auto; /* Adiciona barra de rolagem apenas verticalmente */
+}
+
+.livro-container::-webkit-scrollbar {
+    display: none;
+}
+
+.livro {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+/* Estilos adicionais para personalização */
+.livro-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.livro-info {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 1200px) {
+    .livro-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .livro-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+
+
+.pagination-button {
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: #ddd;
+}
+
+.pagination-button.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    margin: 0 10px;
+}

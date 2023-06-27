@@ -85,7 +85,7 @@
     margin: 0;
 }
 
-.filmes-container {
+.home-container {
     display: flex;
     overflow-x: scroll;
     width: 100%;
@@ -106,10 +106,22 @@
     
 }
 
-.filme-title {
+.home-title {
     color: white;
 }
   
-.filme-info {
+.home-info {
     color: white;
+}
+
+.empty-list-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.empty-list-container img {
+    width: 300px;
+    height: auto; /* Mantém a proporção da imagem */
 }
