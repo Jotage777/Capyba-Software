@@ -1,6 +1,6 @@
 from flask import jsonify, g, Blueprint, request
 from decorators.decorators import is_valid_token, hasPermissionAdmin
-from models.dbModel import Filmes, Livros, Series,User,Permission,Role, db
+from models.dbModel import Filmes, Livros, Series,User,Permission,Role,Imagem, db
 import uuid
 
 
@@ -436,5 +436,55 @@ def editRole(id):
     
     else:
         return jsonify({"message": "Role não disponivel."}), 400
-    
 
+    
+@admin.route('/user/<string:id>', methods=["GET"])
+@is_valid_token
+def getUser(id):
+    user = User.query.get(id)
+    img = Imagem.query.filter_by(user_id=id).first()
+
+    if user:
+        return (
+            jsonify(
+                {
+                    "User": user.profileDict(),
+                    "Img": img.profileDict() if img else None
+                }
+            ),
+            200,
+        )
+    else:
+        return jsonify({"message": "Usuário não encontrado."}), 404
+  
+
+@admin.route('/user',methods=["GET"])
+@is_valid_token
+def getAllUsers():
+  page = request.args.get("page", type=int)
+  pageSize = request.args.get("pageSize", type=int)
+
+  if not page:
+        page = 1
+  if not pageSize:
+      pageSize = 20
+  
+  ordering = User.name
+
+  users_pagination = User.query.order_by(ordering.desc()).paginate(per_page=pageSize, page=page, error_out=True)
+  users = users_pagination.items
+
+
+  if users:
+      users_dict = [user.profileDict() for user in users]
+      return (jsonify({
+          "A.info": {
+              "Page": page,
+              "Page_size": len(users),
+              "Itens_totais": User.query.count()
+          },
+          "Users": users_dict,
+          
+      }), 200)
+  else:
+      return jsonify({"message": "Usuário não encontrado."}), 404

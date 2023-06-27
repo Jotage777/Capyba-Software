@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Filmes from './pages/Filmes';
 import Livros from './pages/Livros';
 import Series from './pages/Series';
+import Perfil from './pages/Perfil';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -69,6 +70,12 @@ function App() {
           <Route path="/series" element={
             user && user.token && user.role ? (
               <Series userToken={user.token} userRole={user.role}/>
+            ):(<Navigate to="/" replace />)
+          } />
+
+          <Route path="/perfil" element={
+            user && user.token && user.id ? (
+              <Perfil userToken={user.token} userId={user.id}/>
             ):(<Navigate to="/" replace />)
           } />
 

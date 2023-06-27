@@ -7,6 +7,7 @@ import jwt
 from flask_sqlalchemy import SQLAlchemy
 import random
 from sqlalchemy.orm import class_mapper
+import base64
 
 from dotenv import load_dotenv
 import os
@@ -143,7 +144,7 @@ class User(db.Model):
             "cpf":self.cpf,
             "birth_date": self.birth_date,
             "phone": self.phone,
-            "role": self.role_id
+            "role": self.role_id,
             
             
         }
@@ -156,11 +157,12 @@ class Imagem(db.Model):
     user_id = db.Column(db.String(64), ForeignKey('users.id'))# User id correspondente a imagem
     
     def profileDict(self):
+        img_data_base64 = base64.b64encode(self.data).decode('utf-8') if self.data else None
         return {
             "id": self.id,
             "name": self.name,
-            "user_id":self.user_id
-            
+            "user_id":self.user_id,
+            "img": img_data_base64
         }
     
 

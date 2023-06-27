@@ -121,7 +121,7 @@ function Home() {
                   <NavBar userToken={userToken}/>
           </div>
 
-          <div className='preview'>
+            <div className='preview'>
                   <h1 className='title'>Filmes, Livros e Séries</h1>
                   
                   <br></br>

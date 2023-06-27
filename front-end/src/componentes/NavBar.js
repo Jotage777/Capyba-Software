@@ -27,7 +27,7 @@ function NavBar({ userToken }){
                 <Link to='/filmes'>Filmes</Link>
                 <Link to='/series'>Séries</Link>
                 <Link to='/livros'>Livros</Link>
-                <Link>Meu perfil</Link>
+                <Link to='/perfil'>Meu perfil</Link>
                 <Link to='/' onClick={logout}>Sair</Link>
             </div>
             
