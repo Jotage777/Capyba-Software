@@ -7,12 +7,12 @@ def validar_cpf(cpf):
         return False
 
     # Calculando o primeiro dígito verificador
-    soma = sum([int(cpf[i]) * (i + 1) for i in range(9)])
+    soma = sum([int(cpf[i]) * (10 - i) for i in range(9)])
     resto = soma % 11
     digito1 = 0 if resto < 2 else 11 - resto
 
     # Calculando o segundo dígito verificador
-    soma = sum([int(cpf[i]) * i for i in range(10)])
+    soma = sum([int(cpf[i]) * (11 - i) for i in range(10)])
     resto = soma % 11
     digito2 = 0 if resto < 2 else 11 - resto
     

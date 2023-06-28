@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+}
+
+.container-navBar {
+    width: 100%;
+    background-color: #333;
+    padding-top: 190px; /* Ajusta o espaçamento superior */
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.warp-perfil {
+    width: 800px;
+    background-color: #333;
+    border-radius: 10px;
+    margin: 10px auto; /* Centraliza o bloco horizontalmente */
+    padding: 70px 35px 33px 35px;
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    align-items: center; /* Centraliza os elementos horizontalmente */
+}
+
+.title {
+    display: block;
+    font-size: 30px;
+    color: white;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 20px; /* Adiciona margem inferior */
+}
+
+.perfil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Adiciona margem inferior */
+}
+
+.perfil img {
+    width: 200px;
+    border-radius: 50%;
+}
+
+.informacoes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.informacoes h2 {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;    
+}
+  
+.informacoes p {
+    color: white;
+    margin-bottom: 5px;
+}
+  
+.informacoes label {
+    color: white;
+    display: block;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #fff;
+    position: relative; /* Adiciona posição relativa para os pseudo-elementos */
+}
+
+.informacoes label::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, #21d4fd, #b721ff);
+    transform: scaleX(0);
+    transition: transform 0.4s ease-in-out;
+}
+
+.informacoes label::after {
+    content: attr(data-placeholder);
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 16px;
+    left: 0px;
+    color: #adadad;
+    font-family: Nunito, sans-serif;
+    padding-left: 5px;
+    transition: all 0.4s;
+}
+
+.informacoes input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.input {
+    font-size: 15px;
+    color: #fff;
+    line-height: 1.2;
+    border: none;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background-color: transparent;
+    padding: 0 5px;
+    font-family: Nunito, sans-serif;
+}
+  
+.button-perfil {
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: #6a7dfe;
+    background: -webkit-linear-gradient(to left, #21d4fd, #b721ff);
+    background: -o-linear-gradient(to left, #21d4fd, #b721ff);
+    background: -moz-linear-gradient(to left, #21d4fd, #b721ff);
+    background: linear-gradient(to left, #21d4fd, #b721ff);
+}
+
+.button-perfil:active,
+.button-perfil:focus {
+    background: #b721ff;
+    outline: none;
+    transform: scale(0.95);
+    /* Adicione aqui outras animações ou efeitos desejados */
+}

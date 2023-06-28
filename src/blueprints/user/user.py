@@ -469,6 +469,7 @@ def updateProfile():
     
     #Update da data de nascimento
     if(request_data.get('birth_date')):
+        print(request_data.get('birth_date'))
         formato = "%d/%m/%Y"
         user.birth_date = datetime.strptime(request_data.get('birth_date'), formato)
 
