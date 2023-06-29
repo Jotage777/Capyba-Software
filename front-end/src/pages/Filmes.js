@@ -11,7 +11,6 @@ function Filmes() {
 
     const [filmes, setFilmes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages] = useState(0);
 
     useEffect(() => {
         previewFilmes();
@@ -87,8 +86,8 @@ function Filmes() {
                         Página {currentPage} 
                     </span>
                     <button
-                        className={`pagination-button ${currentPage === totalPages || filmes.length === 0 ? 'disabled' : ''}`}
-                        disabled={currentPage === totalPages || filmes.length === 0}
+                        className={`pagination-button ${filmes.length < 9 ? 'disabled' : ''}`}
+                        disabled={filmes.length === 0}
                         onClick={handleNextPage}
                     >
                         Próxima

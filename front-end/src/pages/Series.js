@@ -103,7 +103,7 @@ function Series(){
                         Página {currentPage} 
                     </span>
                     <button
-                        className={`pagination-button ${series.length === 0 ? 'disabled' : ''}`}
+                        className={`pagination-button ${series.length < 9 ? 'disabled' : ''}`}
                         disabled={series.length === 0}
                         onClick={handleNextPage}
                     >

@@ -10,6 +10,8 @@ import Filmes from './pages/Filmes';
 import Livros from './pages/Livros';
 import Series from './pages/Series';
 import Perfil from './pages/Perfil';
+import HomeAdmin from './pages/HomeAdmin';
+import FilmesAdmin from './pages/FilmesAdmin';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -45,7 +47,7 @@ function App() {
             }
           />
 
-          <Route path="/admin/login" element={<LoginAdmin />} />
+          <Route path="/admin/login" element={<LoginAdmin onLogin={handleLogin}/>} />
 
           <Route path="/home" element={
               user && user.id && user.token && user.username && user.role? (
@@ -79,6 +81,19 @@ function App() {
             ):(<Navigate to="/" replace />)
           } />
 
+            <Route path="/admin/home" element={
+              user && user.id && user.token && user.username && user.role? (
+                <HomeAdmin userId={user.id} userToken={user.token} username={user.name} userRole={user.role} />
+              ) : (
+                <Navigate to="/admin/login" replace />
+              )
+            } />
+
+          <Route path="/admin/filmes" element={
+            user && user.token ? (
+              <FilmesAdmin userToken={user.token}/>
+            ):(<Navigate to="/admin/home" replace />)
+          } />  
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

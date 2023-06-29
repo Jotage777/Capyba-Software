@@ -1,5 +1,5 @@
 import styles from './styles/Login.module.css';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,8 +22,8 @@ function loginApi(email, password, onLogin, navigate) {
         username: response.data.user.name
       };
       onLogin(userData);
-      alert('Login realizado com sucesso');
       navigate('/home');
+      alert('Login realizado com sucesso');
     } catch {
       alert('Deu errado');
     }

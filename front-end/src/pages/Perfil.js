@@ -63,9 +63,6 @@ function Perfil() {
   async function handleUpdateProfile(e) {
     e.preventDefault();
     
-    console.log('Telefone:',phone)
-    console.log('cpf:',cpf)
-
     const body = {
       name: name,
       cpf: cpf,
@@ -74,7 +71,6 @@ function Perfil() {
     };
 
     try {
-      console.log('chegou aqui')
       const options = {
         method: 'PUT',
         url: `http://localhost:5000/user/updateProfile`,

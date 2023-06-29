@@ -101,7 +101,7 @@ function Livros(){
                         Página {currentPage} 
                     </span>
                     <button
-                        className={`pagination-button ${livros.length === 0 ? 'disabled' : ''}`}
+                        className={`pagination-button ${livros.length < 9 ? 'disabled' : ''}`}
                         disabled={livros.length === 0}
                         onClick={handleNextPage}
                     >

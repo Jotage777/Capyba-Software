@@ -1,10 +1,12 @@
 import styles from './styles/Login.module.css'
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
-function LoginAdmin(){
+function loginApiAdmin(email, password, onLogin, navigate){
+    return async (e) => {
+        e.preventDefault();
 
-    async function loginApi(email, password){
         const body = {
             email: email,
             password: password
@@ -14,17 +16,45 @@ function LoginAdmin(){
             data: body,
             url: "http://localhost:5000/autentication/login"
         }
+
         try{
-            await axios(options)
-            console.log('Deu certo')
+            const response = await axios(options)
+            if(response.data.user.role === 3){
+                
+                const userData = {
+                    id: response.data.user.id,
+                    token: response.data.token,
+                    role: response.data.user.role,
+                    username: response.data.user.name
+                };
+
+                onLogin(userData);
+                navigate('/admin/home');
+                alert('Login realizado com sucesso');
+            }
+            else{
+                alert('Você não tem permissão, somente Admins!');
+                navigate('/');
+            }
         }catch{
             console.log('deu erro')
         }
         
-    }
+    };
+}
 
-    const [email, setEmail] =useState()
-    const [password, setPassword] =useState()
+
+function LoginAdmin(props){
+    const navigate = useNavigate();
+
+    const [email, setEmail] =useState('')
+    const [password, setPassword] =useState('')
+
+    const handleLogin = useCallback(
+        loginApiAdmin(email, password, props.onLogin, navigate),
+        [email, password, props.onLogin, navigate]
+      );
+    
     return(
         <div className={styles.container}>
             <div className={styles.container_login}>
@@ -66,7 +96,7 @@ function LoginAdmin(){
                      
 
                         <div className={styles.container_login_form_btn}>
-                            <button className={styles.button_login} onClick={()=>loginApi(email, password)}>Login</button>
+                            <button type="submit" className={styles.button_login} onClick={handleLogin}>Login</button>
                         </div>
 
 

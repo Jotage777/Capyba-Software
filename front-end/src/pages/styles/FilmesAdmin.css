@@ -1,0 +1,98 @@
+.adicionar {
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.adicionar:hover {
+    background-color: #ddd;
+}
+
+.form-add-filme {
+    width: 400px;
+    background-color: #333;
+    border-radius: 10px;
+    margin: 10px auto; /* Centraliza o bloco horizontalmente */
+    padding: 70px 35px 33px 35px;
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    align-items: center; /* Centraliza os elementos horizontalmente */
+}
+
+.form-add-filme h1{
+    padding: 10px;
+    color: white;
+}
+ 
+.form-add-filme label {
+    color: white;
+    display: block;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #fff;
+    position: relative; /* Adiciona posição relativa para os pseudo-elementos */
+}
+
+.form-add-filme label::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, #21d4fd, #b721ff);
+    transform: scaleX(0);
+    transition: transform 0.4s ease-in-out;
+}
+
+.form-add-filme label::after {
+    content: attr(data-placeholder);
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 16px;
+    left: 0px;
+    color: #adadad;
+    font-family: Nunito, sans-serif;
+    padding-left: 5px;
+    transition: all 0.4s;
+}
+
+.form-add-filme input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.button-add-filme {
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 50px;
+    background: #6a7dfe;
+    background: -webkit-linear-gradient(to left, #21d4fd, #b721ff);
+    background: -o-linear-gradient(to left, #21d4fd, #b721ff);
+    background: -moz-linear-gradient(to left, #21d4fd, #b721ff);
+    background: linear-gradient(to left, #21d4fd, #b721ff);
+}
+
+.button-add-filme:active,
+.button-add-filme:focus {
+    background: #b721ff;
+    outline: none;
+    transform: scale(0.95);
+    /* Adicione aqui outras animações ou efeitos desejados */
+}
