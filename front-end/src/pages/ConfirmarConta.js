@@ -2,8 +2,9 @@ import './styles/ConfirmarConta.css'
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from '../contexts/auth';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
-function ConfirmarConta(){
+function ConfirmarConta(navigate){
     const authContext = useContext(AuthContext);
     const userId = authContext.id; // Acessando o ID do usuário do contexto
 
@@ -34,6 +35,7 @@ function ConfirmarConta(){
         try{
             await axios(options);
             alert('Conta confirmada');
+            navigate('/');
         }catch (error){
             alert(`Erro:${error}`);
         }
