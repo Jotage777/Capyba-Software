@@ -1,0 +1,60 @@
+.user {
+    /* Estilos para cada usuário */
+    display: flex; /* Exibe os elementos em uma linha */
+    flex-wrap: wrap; /* Permite que os elementos quebrem para a próxima linha */
+    align-items: center; /* Centraliza verticalmente os elementos */
+    margin-bottom: 10px; /* Espaçamento entre usuários */
+}
+
+.user-info {
+    /* Estilos para o container de informações do usuário */
+    flex: 1; /* Ocupa todo o espaço disponível */
+    display: flex; /* Exibe as informações em uma linha */
+    align-items: center; /* Centraliza verticalmente as informações */
+}
+
+.user-details {
+    /* Estilos para as informações do usuário */
+    margin-right: 10px; /* Espaçamento à direita das informações */
+}
+
+.user-buttons-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-buttons-container button {
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 50px;
+    margin-bottom: 10px; /* Espaçamento entre os botões */
+    background: #6a7dfe;
+    background: -webkit-linear-gradient(to left, #21d4fd, #b721ff);
+    background: -o-linear-gradient(to left, #21d4fd, #b721ff);
+    background: -moz-linear-gradient(to left, #21d4fd, #b721ff);
+    background: linear-gradient(to left, #21d4fd, #b721ff);
+}
+
+.user-buttons-container button:active,
+.user-buttons-container button:focus {
+    background: #b721ff;
+    outline: none;
+    transform: scale(0.95);
+    /* Adicione aqui outras animações ou efeitos desejados */
+}
+  
+
+.user {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 5px;
+    color: #fff;
+}

@@ -14,32 +14,32 @@ function Livros(){
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        previewLivro();
-    }, [currentPage]);
-
-    async function previewLivro() {
+        async function previewLivro() {
             if (userRole === 2 || userRole === 3) {
-            try {
-                const options = {
-                    method: 'GET',
-                    url: `http://localhost:5000/vip/livros?page=${currentPage}&pageSize=9`,
-                    headers: {
-                        Authorization: `Bearer ${userToken}`,
-                    },
-                };
+                try {
+                    const options = {
+                        method: 'GET',
+                        url: `http://localhost:5000/vip/livros?page=${currentPage}&pageSize=9`,
+                        headers: {
+                            Authorization: `Bearer ${userToken}`,
+                        },
+                    };
+                    
                 
-               
-                const response = await axios(options);
-                const livrosData = response.data.Livros;
-                setLivros(livrosData);
-                
-            } catch (error) {
-                setLivros([]);
+                    const response = await axios(options);
+                    const livrosData = response.data.Livros;
+                    setLivros(livrosData);
+                    
+                } catch (error) {
+                    setLivros([]);
+                }
+            } else {
+                console.log('Usuário não tem permissão para acessar informações de livros.');
             }
-        } else {
-        console.log('Usuário não tem permissão para acessar informações de livros.');
         }
-    }
+        previewLivro();
+    }, [currentPage,userToken,userRole]);
+
 
     const LivroList = livros.map((livro) => (
         <div key={livro.id} className="livro">
@@ -74,17 +74,17 @@ function Livros(){
             <div className='preview'>
                 <h1 className='title'>Livros</h1>
 
-               <br></br>
+            <br></br>
 
                 {userRole === 2 || userRole === 3 ? (
                     <div className='livro-container'>
-                      {LivroList}
+                    {LivroList}
                     </div>
-                  ) : (
+                ) : (
                     <div className='livro-empty-list-container'>
-                      <img src= 'https://a-static.mlcdn.com.br/450x450/kit-5-placas-de-aviso-espaco-reservado-solicite-permissao-mago-das-camisas/magodascamisas3/15990448327/5869c3a19f47ab9b5fe8ed0ad087bff9.jpeg' alt='Permissão' />
+                    <img src= 'https://a-static.mlcdn.com.br/450x450/kit-5-placas-de-aviso-espaco-reservado-solicite-permissao-mago-das-camisas/magodascamisas3/15990448327/5869c3a19f47ab9b5fe8ed0ad087bff9.jpeg' alt='Permissão' />
                     </div>
-                  )}
+                )}
 
 
                 <br />

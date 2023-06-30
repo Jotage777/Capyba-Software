@@ -13,27 +13,27 @@ function Filmes() {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        previewFilmes();
-    }, [currentPage]);
-
-    async function previewFilmes() {
-        const options = {
-            method: 'GET',
-            url: `http://localhost:5000/public/filmes?page=${currentPage}&pageSize=9`,
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-            },
-        };
-
-        try {
-            const response = await axios(options);
-            const filmesData = response.data.Filmes;
-            setFilmes(filmesData);
-            
-        } catch (error) {
-            setFilmes([]);
+        async function previewFilmes() {
+            const options = {
+                method: 'GET',
+                url: `http://localhost:5000/public/filmes?page=${currentPage}&pageSize=9`,
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                },
+            };
+    
+            try {
+                const response = await axios(options);
+                const filmesData = response.data.Filmes;
+                setFilmes(filmesData);
+                
+            } catch (error) {
+                setFilmes([]);
+            }
         }
-    }
+        previewFilmes();
+    }, [currentPage, userToken]);
+
 
     const filmesList = filmes.map((filme) => (
         <div key={filme.id} className="filme">

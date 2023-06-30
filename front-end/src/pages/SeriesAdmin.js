@@ -3,46 +3,46 @@ import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import NavBarAdmin from '../componentes/NavBArAdmin'
 
-import './styles/FilmesAdmin.css'
+import'./styles/SeriesAdmin.css'
 
-function FilmesAdmin(){
+
+function SeriesAdmin(){
     const authContext = useContext(AuthContext);
     const userToken = authContext.token;
 
-    const [filmes, setFilmes] = useState([]);
+    const [series, setSeries] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [adicionar, setAdicionar] = useState(false);
 
-    
     const [name, setName] = useState('');
     const [descricao, setDescricao] = useState('');
     const [avaliacao,setAvaliacao] = useState('')
     const [anoLancamento,setAnoLancamento] = useState('')
 
     useEffect(() => {
-        const previewFilmes = async () => {
-            const options = {
-                method: 'GET',
-                url: `http://localhost:5000/public/filmes?page=${currentPage}&pageSize=9`,
-                headers: {
-                    Authorization: `Bearer ${userToken}`,
-                },
-            };
-    
+        async function previewSeries() {
             try {
+                const options = {
+                    method: 'GET',
+                    url: `http://localhost:5000/vip/series?page=${currentPage}&pageSize=9`,
+                    headers: {
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                };
+               
                 const response = await axios(options);
-                const filmesData = response.data.Filmes;
-                setFilmes(filmesData);
+                const seriesData = response.data.Series;
+                setSeries(seriesData);
+                
             } catch (error) {
-                setFilmes([]);
+                setSeries([]);
             }
-        };
-    
-        previewFilmes();
-    }, [currentPage, userToken]);
-    
+    }
+        previewSeries();
+    }, [currentPage,userToken]);
 
-    async function addFilme(e){
+
+    async function addSerie(e){
         e.preventDefault();
 
         const body = {
@@ -55,7 +55,7 @@ function FilmesAdmin(){
         try {
             const options = {
               method: 'POST',
-              url: `http://localhost:5000/admin/addFilme`,
+              url: `http://localhost:5000/admin/addSerie`,
               headers: {
                 Authorization: `Bearer ${userToken}`,
             },
@@ -63,21 +63,21 @@ function FilmesAdmin(){
             };
 
             await axios(options);
-            alert ('Filme adicionado com sucesso!')
+            alert ('Serie adicionado com sucesso!')
         } catch (error) {
-            alert ('Erro á adicionar o filme!')
+            alert ('Erro á adicionar a Serie!')
         }
 
         setAdicionar(false)
 
     }
 
-    const filmesList = filmes.map((filme) => (
-        <div key={filme.id} className="filme">
-            <h3 className="filme-title">{filme.name} <br /></h3>
-            <p className="filme-info">Ano de Lançamento: <br />{filme.anoLancamento} <br /></p>
-            <p className="filme-info">Avaliação: <br />{filme.avaliacao} <br /></p>
-            <p className="filme-info">Descrição: <br />{filme.descricao} <br /></p>
+    const seriesList = series.map((serie) => (
+        <div key={serie.id} className="serie">
+        <h3 className="serie-title">{serie.name} <br></br> </h3>
+        <p className="serie-info">Ano de Lançamento: <br></br> {serie.anoLancamento} <br></br> </p>
+        <p className="serie-info">Avaliação: <br></br>{serie.avaliacao} <br></br> </p>
+        <p className="serie-info">Descrição: <br></br>{serie.descricao} <br></br> </p>
         </div>
     ));
 
@@ -112,7 +112,6 @@ function FilmesAdmin(){
         }
     };
 
-
     return (
         <div className='container'>
             <div className='container-navBar'>
@@ -127,11 +126,11 @@ function FilmesAdmin(){
 
             <div className='preview'>
 
-                <h1 className='title'>Filmes</h1>
+                <h1 className='title'>Séries</h1>
 
                 {adicionar ? (
-                    <form className='form-add-filme' onSubmit={addFilme}>
-                        <h1>Adicionar Filme</h1>
+                    <form className='form-add-serie' onSubmit={addSerie}>
+                        <h1>Adicionar Série</h1>
                         <br></br>
                         <label>
                             Nome:
@@ -177,7 +176,7 @@ function FilmesAdmin(){
                             <span className="focus-input"></span>
                         </label>
                         <br></br>
-                        <button className="button-add-filme" type="submit">
+                        <button className="button-add-serie" type="submit">
                             Adicionar
                         </button>
                     </form>
@@ -185,12 +184,12 @@ function FilmesAdmin(){
                     <>
                         <br></br>
 
-                        <button className='adicionar' onClick={() => setAdicionar(true)}> Adicionar Filme</button>
+                        <button className='adicionar' onClick={() => setAdicionar(true)}> Adicionar Serie</button>
         
                         <br></br>
         
-                        <div className='filmes-container'>
-                            {filmesList}
+                        <div className='serie-container'>
+                            {seriesList}
                         </div>
         
                         <br />
@@ -207,8 +206,8 @@ function FilmesAdmin(){
                                 Página {currentPage} 
                             </span>
                             <button
-                                className={`pagination-button ${filmes.length < 9 ? 'disabled' : ''}`}
-                                disabled={filmes.length < 9}
+                                className={`pagination-button ${series.length < 9 ? 'disabled' : ''}`}
+                                disabled={series.length === 0}
                                 onClick={handleNextPage}
                             >
                                 Próxima
@@ -216,12 +215,12 @@ function FilmesAdmin(){
                         </div>
                     </>
                 )}
-
               
             </div>
 
         </div>
     )
+
 }
 
-export default FilmesAdmin
+export default SeriesAdmin

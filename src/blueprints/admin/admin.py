@@ -419,21 +419,24 @@ def editRole(id):
     #Consulta com o id fornecido
     user = User.query.get(id)
 
-    if(user.role.has_permission(Permission.VIP)):
-        return jsonify({"message": "Usuário já é um membro vip."}), 400
-    
     if(request_data.get('role')=='VIP'):
-        user.role_id = Role.query.filter_by(name="VIP").first().id
-        db.session.add(user)
-        db.session.commit()
-        return jsonify({"message": "Permissão de usuário alterada com sucesso."}), 200
-    
+      if user.role_id == 2:
+          return jsonify({"message": "Usuário já é um membro vip."}), 400
+     
+      user.role_id = Role.query.filter_by(name="VIP").first().id
+      db.session.add(user)
+      db.session.commit()
+      return jsonify({"message": "Permissão de usuário alterada com sucesso."}), 200
+      
     elif(request_data.get('role')=='PUBLIC'):
-        user.role_id = Role.query.filter_by(name="PUBLIC").first().id
-        db.session.add(user)
-        db.session.commit()
-        return jsonify({"message": "Permissão de usuário alterada com sucesso."}), 200
-    
+      if user.role_id == 1:
+          return jsonify({"message": "Usuário já é um membro publico."}), 400
+      
+      user.role_id = Role.query.filter_by(name="PUBLIC").first().id
+      db.session.add(user)
+      db.session.commit()
+      return jsonify({"message": "Permissão de usuário alterada com sucesso."}), 200
+      
     else:
         return jsonify({"message": "Role não disponivel."}), 400
 
@@ -460,6 +463,7 @@ def getUser(id):
 
 @admin.route('/user',methods=["GET"])
 @is_valid_token
+@hasPermissionAdmin
 def getAllUsers():
   page = request.args.get("page", type=int)
   pageSize = request.args.get("pageSize", type=int)

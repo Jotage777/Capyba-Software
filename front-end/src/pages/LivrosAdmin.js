@@ -3,51 +3,51 @@ import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import NavBarAdmin from '../componentes/NavBArAdmin'
 
-import './styles/FilmesAdmin.css'
+function LivrosAdmin(){
 
-function FilmesAdmin(){
     const authContext = useContext(AuthContext);
     const userToken = authContext.token;
 
-    const [filmes, setFilmes] = useState([]);
+    const [livros, setLivros] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [adicionar, setAdicionar] = useState(false);
 
-    
     const [name, setName] = useState('');
-    const [descricao, setDescricao] = useState('');
+    const [autor, setAutor] = useState('');
     const [avaliacao,setAvaliacao] = useState('')
     const [anoLancamento,setAnoLancamento] = useState('')
 
-    useEffect(() => {
-        const previewFilmes = async () => {
-            const options = {
-                method: 'GET',
-                url: `http://localhost:5000/public/filmes?page=${currentPage}&pageSize=9`,
-                headers: {
-                    Authorization: `Bearer ${userToken}`,
-                },
-            };
-    
-            try {
-                const response = await axios(options);
-                const filmesData = response.data.Filmes;
-                setFilmes(filmesData);
-            } catch (error) {
-                setFilmes([]);
-            }
-        };
-    
-        previewFilmes();
-    }, [currentPage, userToken]);
-    
 
-    async function addFilme(e){
+    useEffect(() => {
+        async function previewLivro() {
+            try {
+                const options = {
+                    method: 'GET',
+                    url: `http://localhost:5000/vip/livros?page=${currentPage}&pageSize=9`,
+                    headers: {
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                };
+                
+               
+                const response = await axios(options);
+                const livrosData = response.data.Livros;
+                setLivros(livrosData);
+                
+            } catch (error) {
+                setLivros([]);
+            }
+        }
+        previewLivro();
+    }, [currentPage, userToken]);
+
+   
+    async function addLivro(e){
         e.preventDefault();
 
         const body = {
             nome: name,
-            descricao: descricao,
+            autor: autor,
             avaliacao:avaliacao,
             anoLancamento: anoLancamento
         }
@@ -55,7 +55,7 @@ function FilmesAdmin(){
         try {
             const options = {
               method: 'POST',
-              url: `http://localhost:5000/admin/addFilme`,
+              url: `http://localhost:5000/admin/addLivro`,
               headers: {
                 Authorization: `Bearer ${userToken}`,
             },
@@ -63,21 +63,21 @@ function FilmesAdmin(){
             };
 
             await axios(options);
-            alert ('Filme adicionado com sucesso!')
+            alert ('Livro adicionado com sucesso!')
         } catch (error) {
-            alert ('Erro á adicionar o filme!')
+            alert ('Erro á adicionar o livro!')
         }
 
         setAdicionar(false)
 
     }
 
-    const filmesList = filmes.map((filme) => (
-        <div key={filme.id} className="filme">
-            <h3 className="filme-title">{filme.name} <br /></h3>
-            <p className="filme-info">Ano de Lançamento: <br />{filme.anoLancamento} <br /></p>
-            <p className="filme-info">Avaliação: <br />{filme.avaliacao} <br /></p>
-            <p className="filme-info">Descrição: <br />{filme.descricao} <br /></p>
+    const livroList = livros.map((livro) => (
+        <div key={livro.id} className="livro">
+        <h3 className="livro-title">{livro.name} </h3>
+        <p className="livro-info">Ano de Lançamento: <br></br>{livro.anoLancamento} </p>
+        <p className="livro-info">Avaliação: <br></br>{livro.avaliacao} </p>
+        <p className="livro-info">Autor: <br></br>{livro.autor} </p>
         </div>
     ));
 
@@ -112,7 +112,6 @@ function FilmesAdmin(){
         }
     };
 
-
     return (
         <div className='container'>
             <div className='container-navBar'>
@@ -127,11 +126,11 @@ function FilmesAdmin(){
 
             <div className='preview'>
 
-                <h1 className='title'>Filmes</h1>
+                <h1 className='title'>Livros</h1>
 
                 {adicionar ? (
-                    <form className='form-add-filme' onSubmit={addFilme}>
-                        <h1>Adicionar Filme</h1>
+                    <form className='form-add-livro' onSubmit={addLivro}>
+                        <h1>Adicionar Livro</h1>
                         <br></br>
                         <label>
                             Nome:
@@ -167,17 +166,17 @@ function FilmesAdmin(){
                         </label>
 
                         <label>
-                            Descrição:
+                            Autor:
                             <input
                             className="input"
                             type="text"
-                            value={descricao}
-                            onChange={(e) => setDescricao(e.target.value)}
+                            value={autor}
+                            onChange={(e) => setAutor(e.target.value)}
                             />
                             <span className="focus-input"></span>
                         </label>
                         <br></br>
-                        <button className="button-add-filme" type="submit">
+                        <button className="button-add-livro" type="submit">
                             Adicionar
                         </button>
                     </form>
@@ -185,12 +184,12 @@ function FilmesAdmin(){
                     <>
                         <br></br>
 
-                        <button className='adicionar' onClick={() => setAdicionar(true)}> Adicionar Filme</button>
+                        <button className='adicionar' onClick={() => setAdicionar(true)}> Adicionar Livro</button>
         
                         <br></br>
         
-                        <div className='filmes-container'>
-                            {filmesList}
+                        <div className='livro-container'>
+                            {livroList}
                         </div>
         
                         <br />
@@ -207,8 +206,8 @@ function FilmesAdmin(){
                                 Página {currentPage} 
                             </span>
                             <button
-                                className={`pagination-button ${filmes.length < 9 ? 'disabled' : ''}`}
-                                disabled={filmes.length < 9}
+                                className={`pagination-button ${livros.length < 9 ? 'disabled' : ''}`}
+                                disabled={livros.length < 9}
                                 onClick={handleNextPage}
                             >
                                 Próxima
@@ -222,6 +221,8 @@ function FilmesAdmin(){
 
         </div>
     )
+
 }
 
-export default FilmesAdmin
+export default LivrosAdmin
+

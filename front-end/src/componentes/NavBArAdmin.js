@@ -28,7 +28,7 @@ function NavBArAdmin({ userToken }){
                 <Link to='/admin/filmes'>Filmes</Link>
                 <Link to='/admin/series'>Séries</Link>
                 <Link to='/admin/livros'>Livros</Link>
-                <Link to='/admin/user'>Usuários</Link>
+                <Link to='/admin/usuarios'>Usuários</Link>
                 <Link to='/admin/login' onClick={logout}>Sair</Link>
             </div>
             

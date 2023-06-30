@@ -15,32 +15,32 @@ function Series(){
 
 
     useEffect(() => {
-        previewSeries();
-    }, [currentPage]);
-
-    async function previewSeries() {
-        if (userRole === 2 || userRole === 3) {
-            try {
-                const options = {
-                    method: 'GET',
-                    url: `http://localhost:5000/vip/series?page=${currentPage}&pageSize=9`,
-                    headers: {
-                        Authorization: `Bearer ${userToken}`,
-                    },
-                };
-                
-               
-                const response = await axios(options);
-                const seriesData = response.data.Series;
-                setSeries(seriesData);
-                
-            } catch (error) {
-                setSeries([]);
+        async function previewSeries() {
+            if (userRole === 2 || userRole === 3) {
+                try {
+                    const options = {
+                        method: 'GET',
+                        url: `http://localhost:5000/vip/series?page=${currentPage}&pageSize=9`,
+                        headers: {
+                            Authorization: `Bearer ${userToken}`,
+                        },
+                    };
+                    
+                   
+                    const response = await axios(options);
+                    const seriesData = response.data.Series;
+                    setSeries(seriesData);
+                    
+                } catch (error) {
+                    setSeries([]);
+                }
+            } else {
+            console.log('Usuário não tem permissão para acessar informações de livros.');
             }
-        } else {
-        console.log('Usuário não tem permissão para acessar informações de livros.');
         }
-    }
+        previewSeries();
+    }, [currentPage, userRole, userToken]);
+
 
     const SeriesList = series.map((serie) => (
         <div key={serie.id} className="serie">

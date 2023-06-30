@@ -12,6 +12,9 @@ import Series from './pages/Series';
 import Perfil from './pages/Perfil';
 import HomeAdmin from './pages/HomeAdmin';
 import FilmesAdmin from './pages/FilmesAdmin';
+import SeriesAdmin from './pages/SeriesAdmin';
+import LivrosAdmin from './pages/LivrosAdmin';
+import UsersAdmin from './pages/UsersAdmin';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -81,19 +84,37 @@ function App() {
             ):(<Navigate to="/" replace />)
           } />
 
-            <Route path="/admin/home" element={
-              user && user.id && user.token && user.username && user.role? (
-                <HomeAdmin userId={user.id} userToken={user.token} username={user.name} userRole={user.role} />
-              ) : (
-                <Navigate to="/admin/login" replace />
-              )
-            } />
+          <Route path="/admin/home" element={
+            user && user.id && user.token && user.username && user.role? (
+              <HomeAdmin userId={user.id} userToken={user.token} username={user.name} userRole={user.role} />
+            ) : (
+              <Navigate to="/admin/login" replace />
+            )
+          } />
 
           <Route path="/admin/filmes" element={
             user && user.token ? (
               <FilmesAdmin userToken={user.token}/>
-            ):(<Navigate to="/admin/home" replace />)
-          } />  
+            ):(<Navigate to="/admin/login" replace />)
+          } />
+
+          <Route path="/admin/series" element={
+            user && user.token ? (
+              <SeriesAdmin userToken={user.token}/>
+            ):(<Navigate to="/admin/login" replace />)
+          } />
+
+          <Route path="/admin/livros" element={
+            user && user.token ? (
+              <LivrosAdmin userToken={user.token}/>
+            ):(<Navigate to="/admin/login" replace />)
+          } />
+
+          <Route path="/admin/usuarios" element={
+            user && user.token ? (
+              <UsersAdmin userToken={user.token}/>
+            ):(<Navigate to="/admin/login" replace />)
+          } />                
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>
